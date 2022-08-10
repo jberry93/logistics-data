@@ -49,7 +49,7 @@ for country in countries:
 
     cursor.execute(insert_country_query)
 
-print('Countries added')
-
 con.commit()
 con.close()
+
+print('Countries added')

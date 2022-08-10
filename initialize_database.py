@@ -11,8 +11,16 @@ drop_countries_table_query = """
 DROP TABLE IF EXISTS Countries
 """
 
-cursor.execute(create_countries_table_query)
-print('Countries table created')
+create_currencies_table_query = """
+CREATE TABLE Currencies(Code VARCHAR(20), Description VARCHAR(255))
+"""
+
+drop_currencies_table_query = """
+DROP TABLE IF EXISTS Currencies
+"""
+
+cursor.execute(create_currencies_table_query)
+print('Currencies table created')
 
 connection.commit()
 connection.close()
