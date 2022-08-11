@@ -1,6 +1,10 @@
 import json
 import sqlite3
+import pymssql
 from bs4 import BeautifulSoup
+from dotenv import dotenv_values
+
+config = dotenv_values(".env")
 
 currency_table = """
 <table class="sPg_tbl tablesorter" id="currencyTable" cellspacing="0" cellpadding="" border="0">
@@ -36,15 +40,17 @@ for row in rows:
 
 connection = sqlite3.connect('data.db')
 cursor = connection.cursor()
+# connection = pymssql.connect(config["DB_SERVER"], config["DB_USER"], config["DB_PASSWORD"], config["DB_NAME"])
+# cursor = connection.cursor(as_dict=True)
 
 for currency in currencies:
     # Cite: https://stackoverflow.com/a/1912100/4992228
     parsed_description = currency["description"].replace("'", "''")
     insert_currency_query = """
-    INSERT INTO Currencies VALUES ('%s', '%s')
-    """ % (currency["code"], parsed_description)
+    INSERT INTO dbo.Currency VALUES ('%s', '%s')
+    """ % (parsed_description, currency["code"])
 
-    print(insert_currency_query)
+    # print(insert_currency_query)
     cursor.execute(insert_currency_query)
 
 connection.commit()
